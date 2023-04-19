@@ -9,6 +9,7 @@ html {
   position: fixed;
   z-index: 101;
 }
+
 #TopBar {
   position: fixed;
   top: 0;
