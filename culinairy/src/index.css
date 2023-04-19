@@ -2,6 +2,126 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+html {
+  background-color: #243847;
+}
+#outer-container {
+  position: fixed;
+  z-index: 101;
+}
+#TopBar {
+  position: fixed;
+  top: 0;
+  right: -60px;
+  z-index: 100;
+  background-color: #243847;
+  width: 100%;
+}
+
+#markdown {
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #f2f2f2;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #476f9d;
+}
+
+#markdown h1,
+#markdown h2,
+#markdown h3,
+#markdown h4,
+#markdown h5,
+#markdown h6 {
+  font-weight: 600;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+#markdown h1 {
+  font-size: 2em;
+}
+
+#markdown h2 {
+  font-size: 1.5em;
+}
+
+#markdown h3 {
+  font-size: 1.2em;
+}
+
+#markdown h4 {
+  font-size: 1em;
+}
+
+#markdown h5 {
+  font-size: 0.9em;
+}
+
+#markdown h6 {
+  font-size: 0.8em;
+}
+
+#markdown p {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#markdown ul,
+#markdown ol {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding-left: 2em;
+}
+
+#markdown ul li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#markdown ol li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#markdown blockquote {
+  margin: 0;
+  padding: 0 1em;
+  border-left: 4px solid #ccc;
+  color: #777;
+}
+
+#markdown code {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9em;
+  background-color: #f8f8f8;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+#markdown pre code {
+  font-size: 1em;
+  padding: 1em;
+  overflow-x: auto;
+  display: block;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+#markdown a {
+  color: #337ab7;
+  text-decoration: none;
+  border-bottom: 1px solid #337ab7;
+}
+
+#markdown a:hover {
+  color: #23527c;
+  border-bottom: 1px solid #23527c;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -16,7 +136,193 @@ code {
     monospace;
 }
 
-.btn {
+@media screen and (max-width: 40em) {
+  main {
+    font-size: 80%;
+  }
+  h1 {
+    padding-top: 1em;
+    font-size: 2.5em;
+  }
+}
+
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+}
+
+@media screen and (max-width: 640px) {
+  .bm-burger-button {
+    position: fixed;
+    width: 36px;
+    height: 30px;
+    left: 15.5px;
+    top: 36px;
+  }
+}
+
+.bm-burger-button button:focus {
+  outline: 2px solid #00acbf;
+  outline-offset: 8px;
+}
+.bm-burger-button button:focus + span span.bm-burger-bars {
+  background-color: #00acbf;
+}
+.right .bm-burger-button {
+  left: initial;
+  right: 36px;
+}
+.bm-burger-bars {
+  background: #565eb0;
+}
+.bm-morph-shape {
+  fill: #565eb0;
+}
+.bm-menu {
+  background: #565eb0;
+}
+.bm-menu a {
+  color: #b8b7ad;
+}
+.bm-menu a:hover,
+.bm-menu a:focus {
+  color: #7bc7fb;
+}
+.bm-item-list a {
+  padding: 0.8em;
+}
+.bm-item-list a span {
+  margin-left: 10px;
+  font-weight: 700;
+}
+.bm-item:focus {
+  outline: none;
+}
+.menu-1 .bm-cross {
+  background: #bdc3c7;
+}
+.menu-1 .bm-menu {
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+.menu-1 .bm-cross-button button:focus {
+  outline: 2px solid #00acbf;
+  outline-offset: 2px;
+}
+.menu-1 .bm-cross-button button:focus + span span.bm-cross {
+  background-color: #00acbf;
+}
+.menu-2 .bm-cross {
+  background: #999;
+}
+.menu-2 .bm-menu {
+  padding: 3.4em 1em 0;
+}
+.menu-2 a {
+  padding: 1em;
+}
+.menu-2 i {
+  font-size: 1.7em;
+  vertical-align: middle;
+  color: #282a35;
+}
+.menu-2 .bm-cross-button button:focus {
+  outline: 2px solid #00acbf;
+  outline-offset: 2px;
+}
+.menu-2 .bm-cross-button button:focus + span span.bm-cross {
+  background-color: #00acbf;
+}
+.menu-3 .bm-cross {
+  background: #888;
+}
+.menu-3 .bm-menu {
+  padding: 2em 1em;
+  font-size: 1.15em;
+}
+.menu-3 i {
+  opacity: 0.5;
+}
+.menu-3 span {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.75em;
+}
+.menu-3 .bm-cross-button button:focus {
+  outline: 2px solid #c94e50;
+  outline-offset: 2px;
+}
+.menu-3 .bm-cross-button button:focus + span span.bm-cross {
+  background-color: #c94e50;
+}
+.menu-4 .bm-cross {
+  background: #888;
+}
+.menu-4 h2 {
+  margin: 0 auto;
+  padding: 2em 1em;
+  color: rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2);
+}
+.menu-4 h2 i {
+  margin-left: 0.2em;
+}
+.menu-4 h2 span {
+  font-size: 1.6em;
+  font-weight: 700;
+}
+.menu-4 a {
+  padding: 1em;
+  text-transform: uppercase;
+  transition: background 0.3s, box-shadow 0.3s;
+  box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2);
+}
+.menu-4 a span {
+  letter-spacing: 1px;
+  font-weight: 400;
+}
+.menu-4 a:hover,
+.menu-4 a:focus {
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 -1px rgba(0, 0, 0, 0);
+  color: #b8b7ad;
+}
+.menu-4 .bm-cross-button button:focus {
+  outline: 2px solid #00acbf;
+  outline-offset: 2px;
+}
+.menu-4 .bm-cross-button button:focus + span span.bm-cross {
+  background-color: #00acbf;
+}
+#slide .bm-cross,
+#reveal .bm-cross {
+  background: #bdc3c7;
+}
+#slide .bm-menu,
+#reveal .bm-menu {
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+#slide .bm-cross-button button:focus,
+#reveal .bm-cross-button button:focus {
+  outline: 2px solid #00acbf;
+  outline-offset: 2px;
+}
+#slide .bm-cross-button button:focus + span span.bm-cross,
+#reveal .bm-cross-button button:focus + span span.bm-cross {
+  background-color: #00acbf;
+}
+
+@media screen and (max-width: 80em) {
+  main {
+    padding-bottom: 12em;
+  }
+}
+
+.signUp {
   background-color: #f6733b;
   color: #c82626;
   padding: 0.5rem 1rem;
@@ -26,14 +332,13 @@ code {
 }
 
 /* Apply button styles to all buttons */
-button,
-input[type="submit"] {
-  /* Use the .btn class for button styles */
-  @apply btn !important;
+signUp {
+  /* Use the .signUp class for button styles */
+  @apply signUp !important;
 }
 
 /* Add hover styles to buttons */
-button:hover,
-input[type="submit"]:hover {
+.signUp:hover {
   background-color: #2563eb !important;
 }
+

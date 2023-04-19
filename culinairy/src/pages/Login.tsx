@@ -40,8 +40,8 @@ export default function Login() {
 
   return (
     <div>
-      <button type="button" onClick={gitSignUp}>Sign up with GitHub</button>
-      <button type="button" onClick={googleSignUp}>Sign up with Google</button>
+      <button type="button" className="signUp" onClick={gitSignUp}>Sign up with GitHub</button>
+      <button type="button" className="signUp" onClick={googleSignUp}>Sign up with Google</button>
     </div>
   );
 }
