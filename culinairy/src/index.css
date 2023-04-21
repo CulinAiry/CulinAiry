@@ -3,20 +3,32 @@
 @import 'tailwindcss/utilities';
 
 html {
+  max-width: 100%;
+  max-height: 100%;
+  overflow-x: hidden;
+  /* overflow-y: hidden; */
   background-color: #243847;
 }
 #outer-container {
   position: fixed;
-  z-index: 101;
+  z-index: 5;
+
+  perspective: none !important;
+}
+#app {
+  perspective: 1000px;
+  position: absolute;
+  /* z-index: 1; */
 }
 
 #TopBar {
-  position: fixed;
-  top: 0;
+  position: sticky !important;
+  /* width: calc(100vw - 10px); */
+  top: -1px;
   right: -60px;
-  z-index: 100;
-  background-color: #243847;
-  width: 100%;
+  z-index: 4 !important;
+  /* background-color: #243847; */
+  perspective: unset;
 }
 
 #markdown {
@@ -122,49 +134,100 @@ html {
   color: #23527c;
   border-bottom: 1px solid #23527c;
 }
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+#ingredients {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 1.5;
 }
+
+#ingredients:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+#ingredients::selection {
+  background-color: #3b82f6;
+  color: #fff;
+}
+
+.closeB {
+  color: #565eb0;
+  font-size: 20px;
+  transition: color 0.2s ease-in-out;
+}
+.closeB:hover {
+  color: #393e79;
+}
+
+.tag {
+  background-color: #e5e7eb;
+  border-color: transparent;
+  padding: 4px 4px;
+  margin: 2px;
+  border-radius: 4px;
+  width: max-content;
+}
+
+.tag:focus {
+  background-color: #3b82f6;
+  color: #fff;
+}
+
+#newRecipeForm {
+  padding: 10px, 10px, 10px, 10px;
+  background-image: linear-gradient(to right, #000000, #ffffff);
+  animation: gradient 20s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
-@media screen and (max-width: 40em) {
-  main {
-    font-size: 80%;
-  }
-  h1 {
-    padding-top: 1em;
-    font-size: 2.5em;
-  }
-}
-
+/* Position and sizing of burger button */
 .bm-burger-button {
-  position: fixed;
+  position: absolute;
   width: 36px;
   height: 30px;
   left: 36px;
   top: 36px;
 }
-
 @media screen and (max-width: 640px) {
   .bm-burger-button {
-    position: fixed;
+    position: absolute;
+    width: 36px;
+    height: 30px;
+    left: 22.5px;
+    top: 17px;
+  }
+}
+@media screen and (max-width: 438px) {
+  .bm-burger-button {
+    position: absolute;
     width: 36px;
     height: 30px;
     left: 15.5px;
-    top: 36px;
+    top: 12px;
   }
 }
-
+#react-burger-menu-btn {
+  /* z-index: 10 !important; */
+}
 .bm-burger-button button:focus {
   outline: 2px solid #00acbf;
   outline-offset: 8px;
@@ -172,18 +235,49 @@ code {
 .bm-burger-button button:focus + span span.bm-burger-bars {
   background-color: #00acbf;
 }
-.right .bm-burger-button {
-  left: initial;
-  right: 36px;
-}
+
+/* Color/shape of burger icon bars */
 .bm-burger-bars {
   background: #565eb0;
 }
-.bm-morph-shape {
-  fill: #565eb0;
+
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+  background: #5259ad;
 }
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+.bm-cross-button button:focus {
+  outline: 2px solid #00acbf;
+  outline-offset: 2px;
+}
+.bm-cross-button button:focus + span span.bm-cross {
+  background-color: #00acbf;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+/* General sidebar styles */
 .bm-menu {
   background: #565eb0;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
 }
 .bm-menu a {
   color: #b8b7ad;
@@ -192,6 +286,16 @@ code {
 .bm-menu a:focus {
   color: #7bc7fb;
 }
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #565eb0;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em;
+}
 .bm-item-list a {
   padding: 0.8em;
 }
@@ -199,122 +303,16 @@ code {
   margin-left: 10px;
   font-weight: 700;
 }
-.bm-item:focus {
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
   outline: none;
 }
-.menu-1 .bm-cross {
-  background: #bdc3c7;
-}
-.menu-1 .bm-menu {
-  padding: 2.5em 1.5em 0;
-  font-size: 1.15em;
-}
-.menu-1 .bm-cross-button button:focus {
-  outline: 2px solid #00acbf;
-  outline-offset: 2px;
-}
-.menu-1 .bm-cross-button button:focus + span span.bm-cross {
-  background-color: #00acbf;
-}
-.menu-2 .bm-cross {
-  background: #999;
-}
-.menu-2 .bm-menu {
-  padding: 3.4em 1em 0;
-}
-.menu-2 a {
-  padding: 1em;
-}
-.menu-2 i {
-  font-size: 1.7em;
-  vertical-align: middle;
-  color: #282a35;
-}
-.menu-2 .bm-cross-button button:focus {
-  outline: 2px solid #00acbf;
-  outline-offset: 2px;
-}
-.menu-2 .bm-cross-button button:focus + span span.bm-cross {
-  background-color: #00acbf;
-}
-.menu-3 .bm-cross {
-  background: #888;
-}
-.menu-3 .bm-menu {
-  padding: 2em 1em;
-  font-size: 1.15em;
-}
-.menu-3 i {
-  opacity: 0.5;
-}
-.menu-3 span {
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 0.75em;
-}
-.menu-3 .bm-cross-button button:focus {
-  outline: 2px solid #c94e50;
-  outline-offset: 2px;
-}
-.menu-3 .bm-cross-button button:focus + span span.bm-cross {
-  background-color: #c94e50;
-}
-.menu-4 .bm-cross {
-  background: #888;
-}
-.menu-4 h2 {
-  margin: 0 auto;
-  padding: 2em 1em;
-  color: rgba(0, 0, 0, 0.4);
-  box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2);
-}
-.menu-4 h2 i {
-  margin-left: 0.2em;
-}
-.menu-4 h2 span {
-  font-size: 1.6em;
-  font-weight: 700;
-}
-.menu-4 a {
-  padding: 1em;
-  text-transform: uppercase;
-  transition: background 0.3s, box-shadow 0.3s;
-  box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2);
-}
-.menu-4 a span {
-  letter-spacing: 1px;
-  font-weight: 400;
-}
-.menu-4 a:hover,
-.menu-4 a:focus {
-  background: rgba(0, 0, 0, 0.2);
-  box-shadow: inset 0 -1px rgba(0, 0, 0, 0);
-  color: #b8b7ad;
-}
-.menu-4 .bm-cross-button button:focus {
-  outline: 2px solid #00acbf;
-  outline-offset: 2px;
-}
-.menu-4 .bm-cross-button button:focus + span span.bm-cross {
-  background-color: #00acbf;
-}
-#slide .bm-cross,
-#reveal .bm-cross {
-  background: #bdc3c7;
-}
-#slide .bm-menu,
-#reveal .bm-menu {
-  padding: 2.5em 1.5em 0;
-  font-size: 1.15em;
-}
-#slide .bm-cross-button button:focus,
-#reveal .bm-cross-button button:focus {
-  outline: 2px solid #00acbf;
-  outline-offset: 2px;
-}
-#slide .bm-cross-button button:focus + span span.bm-cross,
-#reveal .bm-cross-button button:focus + span span.bm-cross {
-  background-color: #00acbf;
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 @media screen and (max-width: 80em) {
@@ -342,4 +340,3 @@ signUp {
 .signUp:hover {
   background-color: #2563eb !important;
 }
-
