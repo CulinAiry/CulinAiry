@@ -26,7 +26,7 @@ function App() {
   const user = useSelector((state: { user: UserState }) => state.user.user);
 
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const [menuStyle, setMenuStyle] = useState<string>('scaleRotate');
+  const [menuStyle, setMenuStyle] = useState<string>('pushRotate');
 
   const menuStyles: { [key: string]: any } = {
     slide: SlideMenu,
@@ -101,7 +101,9 @@ function App() {
         <div id="app">
 
           <div id="TopBar" ref={topBarRef} className="flex justify-end items-center min-h-[60px] max-h-[100px] pl-[60px] pr-[10px] bg-[#1d2d3a] w-[100vw]">
-            <ProfilePicture imageUrl={user.photoURL} />
+            <div className="flex">
+              <ProfilePicture imageUrl={user.photoURL} />
+            </div>
             <Link className="" to="/" onClick={(e) => setMenuOpen(false)}>
               <img src="CulinairyTransBoosted_large.png" className="App-logo w-auto pl-[10px] max-h-[70px] lg:max-h-[100px] sm:my-4 mb-1 flex justify-end items-center" alt="logo" />
             </Link>

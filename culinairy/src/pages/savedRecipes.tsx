@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import { getUserRecipes, saveUserRecipe, deleteUserRecipe } from '../db/firebaseRecipes';
+import { useSelector } from "react-redux";
+import { getUserRecipes, saveUserRecipe, deleteUserRecipe, Recipe } from '../db/firebaseRecipes';
 import { UserState } from "../reducers/userSlice";
 import Markdown from 'markdown-to-jsx';
-type Recipe = {
-  name: string;
-  favorite: boolean;
-  recipe: string;
-};
+
 export default function SavedRecipes() {
-  const dispatch = useDispatch();
   const loggedIn = useSelector((state: { user: UserState }) => state.user.loggedIn);
   const user = useSelector((state: { user: UserState }) => state.user.user);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [showFavorites, setShowFavorites] = useState<boolean>(false);
 
   useEffect(() => {
     getUserRecipes(user.uid).then((res) => {
@@ -31,30 +28,67 @@ export default function SavedRecipes() {
     setRecipes((prevRecipes) => prevRecipes.filter((r) => r.name !== recipe.name));
   };
 
+  const filteredRecipes = recipes
+    .filter(
+      (recipe) =>
+        recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        recipe.recipe.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((recipe) => !showFavorites || recipe.favorite);
+
   return (
     <div className="text-center">
       {loggedIn !== undefined && loggedIn && (
         <div id="saved">
-          {recipes.length > 0 &&
-            recipes.map((recipe) => (
-              <div key={recipe.name} id="markdown" className="text-left flex justify-between items-start">
+          <div className="mb-4">
+            <input
+              type="text"
+              className="border border-gray-400 rounded py-2 px-3 mr-2 leading-tight focus:outline-none"
+              placeholder="Search recipes..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button
+              className={`${showFavorites ? 'bg-yellow-500' : 'bg-gray-500'
+                } hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded`}
+              onClick={() => setShowFavorites(!showFavorites)}
+            >
+              {showFavorites ? 'Show All' : 'Show Favorites'}
+            </button>
+          </div>
+          {filteredRecipes.length > 0 ? (
+            filteredRecipes.map((recipe) => (
+              <div
+                key={recipe.name}
+                id="markdown"
+                className="text-left flex justify-between items-start"
+              >
                 <div>
                   <button
                     className={`fa fa-star text-[2em]`}
-                    style={{ color: recipe.favorite ? '#eed21b' : 'rgb(214 211 209 / var(--tw-text-opacity))' }}
+                    style={{
+                      color: recipe.favorite ? '#eed21b' : 'rgb(214 211 209 / var(--tw-text-opacity))'
+                    }}
                     onClick={() => toggleFavorite(recipe)}
                   />
-                  <h1 className="mt-1">{recipe.name}</h1>
-                  <Markdown>
-                    {recipe.recipe}
-                  </Markdown>
+                  <Markdown>{recipe.recipe}</Markdown>
                 </div>
                 <button
-                  className={`fa-solid fa-trash-can text-[2em] text-stone-900`}
-                  onClick={() => deleteRecipe(recipe)}
-                />
+                  className={'fa-solid fa-trash-can text-[2em] text-stone-900'}
+                onClick={() => deleteRecipe(recipe)}
+                    />
               </div>
-            ))}
+            ))
+          ) : (
+            <div id="markdown">
+              <Markdown>There are no saved recipes to display.</Markdown>
+            </div>
+          )}
+        </div>
+      )}
+      {loggedIn !== undefined && !loggedIn && (
+        <div id="markdown">
+          <Markdown>## Log in to save recipes!</Markdown>
         </div>
       )}
     </div>

@@ -375,8 +375,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .bm-menu a {
   color: #b8b7ad;
 }
-.bm-menu a:hover,
-.bm-menu a:focus {
+.bm-menu a:hover {
   color: #7bc7fb;
 }
 /* Morph shape necessary with bubble or elastic */

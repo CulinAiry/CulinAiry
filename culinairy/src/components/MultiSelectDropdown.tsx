@@ -68,6 +68,9 @@ export default function MultiSelectDropdown({ label, options, value, optionType,
               })
               : "Any";
           }}
+          overrideStrings={{
+            search: "Search/Add",
+          }}
           onCreateOption={handleNewField}
           options={options.map((option) => ({ label: option, value: option }))}
           value={selectedOptions}

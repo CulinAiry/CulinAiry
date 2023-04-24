@@ -1,22 +1,23 @@
 import { Conversation, Message } from 'gpt-turbo';
 
-export default async function getRecipes(question: string, callback: (response: string) => void): Promise<any> {
+export default async function getRecipes(question: string, callback: (response: [string, boolean]) => void): Promise<any> {
     const conversation = new Conversation({
         apiKey: process.env.REACT_APP_GPT_API_KEY || '',
         stream: true,
     });
 
     const response = (await conversation.prompt(question)) as Message;
+    let message = '';
 
-    callback(response.content);
+    callback([response.content, false]);
 
-    const unsubscribe = response.onMessageUpdate((content) => {
-        // console.log(content)
-        callback(content);
+    response.onMessageUpdate((content) => {
+        message = content;
+        callback([content, false]);
     });
 
     response.onMessageStreamingStop(() => {
-        unsubscribe();
+        callback([message, true]);
     });
 
     return response;

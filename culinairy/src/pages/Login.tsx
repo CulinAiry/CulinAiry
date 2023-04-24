@@ -21,8 +21,8 @@ export default function Login() {
         const user = res.user;
         console.log(res);
         const loginData = { displayName: user.displayName || '', email: user.email || '', photoURL: user.photoURL || '', uid: user.uid, loggedIn: true };
-        dispatch(loginUser(loginData));
         showNotificationPopup(`Logged in as ${user.displayName}`, '#15d146');
+        dispatch(loginUser(loginData));
       })
       .catch((err) => {
         alert(`${err.name}: ${err.code}. ${err.customData.email} already has an an account!`);
@@ -35,23 +35,23 @@ export default function Login() {
         const user = res.user;
         console.log(res);
         const loginData = { displayName: user.displayName || '', email: user.email || '', photoURL: user.photoURL || '', uid: user.uid, loggedIn: true };
-        dispatch(loginUser(loginData));
         showNotificationPopup(`Logged in as ${user.displayName}`, '#15d146');
+        dispatch(loginUser(loginData));
       })
       .catch((err, ...rest) => {
         alert(`${err.name}: ${err.code}. ${err.customData.email} already has an an account!`);
       })
   }
   const logOut = () => {
-    dispatch(logoutUser());
     showNotificationPopup(`Logged out`, '#de395f');
+    dispatch(logoutUser());
   }
 
   return (
     <div className="text-center">
+          <div id="notification-popup"></div>
       {loggedIn !== undefined && !loggedIn && (
         <div id="logIn">
-          <div id="notification-popup"></div>
           <button type="button" id="git" className="signUp" onClick={gitSignUp}>
             Sign up with GitHub
             <span className="ml-2 fa-brands fa-github" />
