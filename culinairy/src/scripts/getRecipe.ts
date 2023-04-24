@@ -11,7 +11,7 @@ export default async function getRecipes(question: string, callback: (response: 
     callback(response.content);
 
     const unsubscribe = response.onMessageUpdate((content) => {
-        console.log(content)
+        // console.log(content)
         callback(content);
     });
 

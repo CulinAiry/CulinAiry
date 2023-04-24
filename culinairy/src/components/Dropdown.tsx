@@ -9,8 +9,11 @@ export default function Dropdown({ label, options, value, onChange }: DropdownPr
   return (
     <>
       <label>
-        {label}:
-        <select value={value} onChange={onChange}>
+        <span id="label">{label}</span>
+        <select
+          value={value}
+          onChange={onChange}
+          className="box-border h-10 rounded-md text-gray-600 border-none pl-4 pr-9 py-[0.375rem]">
           <option value="">Select an option</option>
           {options.map((option) => (
             <option key={option} value={option}>

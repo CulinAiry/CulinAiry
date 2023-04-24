@@ -4,6 +4,9 @@ import Login from "./pages/Login";
 import HomePage from "./pages/HomePage";
 import About from "./pages/About";
 import NewRecipe from "./pages/NewRecipe";
+import ProfilePicture from "./components/ProfilePic";
+import { useSelector, useDispatch } from "react-redux";
+import { loginUser, logoutUser, UserState } from "./reducers/userSlice";
 import {
   slide as SlideMenu,
   stack as StackMenu,
@@ -16,8 +19,12 @@ import {
   fallDown as FallDownMenu,
   // reveal as RevealMenu
 } from 'react-burger-menu';
+import SavedRecipes from "./pages/savedRecipes";
 
 function App() {
+  // const dispatch = useDispatch();
+  const user = useSelector((state: { user: UserState }) => state.user.user);
+
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [menuStyle, setMenuStyle] = useState<string>('scaleRotate');
 
@@ -31,7 +38,6 @@ function App() {
     scaleRotate: ScaleRotateMenu,
     fallDown: FallDownMenu
   }
-
   const MenuStyle = menuStyles[menuStyle]; // Get the correct menu style from the menuStyles object
 
   const handleMenuToggle = () => {
@@ -77,10 +83,10 @@ function App() {
               About
             </Link>
             <Link className="menu-item" to="/login" onClick={handleMenuToggle}>
-              Login
+              LogIn/LogOut
             </Link>
-            <Link className="menu-item" to="/signup" onClick={handleMenuToggle}>
-              Signup
+            <Link className="menu-item" to="/saved-recipes" onClick={handleMenuToggle}>
+              Saved
             </Link>
             <select value={menuStyle} onChange={handleMenuStyleChange} className="bg-[#37444c] rounded-md text-white px-2 py-1">
               {Object.keys(menuStyles).map((key) => (
@@ -95,30 +101,15 @@ function App() {
         <div id="app">
 
           <div id="TopBar" ref={topBarRef} className="flex justify-end items-center min-h-[60px] max-h-[100px] pl-[60px] pr-[10px] bg-[#1d2d3a] w-[100vw]">
+            <ProfilePicture imageUrl={user.photoURL} />
             <Link className="" to="/" onClick={(e) => setMenuOpen(false)}>
-              <img src="CulinairyTransBoosted_large.png" className="App-logo w-auto pl-[10px] max-h-[70px] md:max-h-[100px] sm:my-4 mb-1 flex justify-end items-center" alt="logo" />
+              <img src="CulinairyTransBoosted_large.png" className="App-logo w-auto pl-[10px] max-h-[70px] lg:max-h-[100px] sm:my-4 mb-1 flex justify-end items-center" alt="logo" />
             </Link>
           </div>
 
           <div id="page-wrap" className="pt-[30px] h-auto">
             <style>
               {`
-                :root {
-                  --log-value: calc(1 + var(--log-base) * log(100vw / var(--log-divisor)));
-                }
-                ::-webkit-scrollbar {
-                  width: 1.5vh;
-                  scroll-behavior: smooth;
-                }
-                ::-webkit-scrollbar-thumb {
-                  background-color: #476f9d;
-                }
-                ::-webkit-scrollbar-button {
-                  display: none;
-                }
-                ::-webkit-scrollbar-track {
-                  background-color: #1d2d3a;
-                }
                 ::-webkit-scrollbar-track-piece:start {
                   background: transparent;
                   margin-top: clamp(60px, ${topBarHeight}px, 100px);
@@ -129,8 +120,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/about" element={<About />} />
-              {/* <Route path="/signup" element={<Signup />} />
-          <Route path="/saved-recipes" element={<SavedRecipes />} /> */}
+              <Route path="/saved-recipes" element={<SavedRecipes />} />
               <Route path="/new-recipe" element={<NewRecipe />} />
             </Routes>
           </div>

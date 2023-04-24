@@ -55,7 +55,7 @@ export default function MultiSelectDropdown({ label, options, value, optionType,
   return (
     <>
       <label>
-        {label}:
+        <span id="label">{label}</span>
         <br />
         <MultiSelect
           ClearSelectedIcon={null}

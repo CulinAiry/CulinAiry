@@ -9,6 +9,29 @@ html {
   /* overflow-y: hidden; */
   background-color: #243847;
 }
+
+#notification-popup {
+  font-family: "Montserrat";
+  position: fixed;
+  font-size: 2em;
+  font-weight: bold;
+  top: 20px;
+  right: 20px;
+  border: 1px solid #000000s;
+  padding: 20px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 9999;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.4;
+  border-radius: 4px;
+}
+
+#notification-popup p {
+  margin: 0;
+}
+
 #outer-container {
   position: fixed;
   z-index: 5;
@@ -24,23 +47,60 @@ html {
 #TopBar {
   position: sticky !important;
   /* width: calc(100vw - 10px); */
-  top: -1px;
+  top: 0px;
   right: -60px;
   z-index: 4 !important;
   /* background-color: #243847; */
   perspective: unset;
 }
 
+#inner-form-box {
+  margin-bottom: 1em;
+}
+
+.multi-select-container {
+  position: relative;
+  display: inline-block;
+  max-width: max-content;
+}
+
+.multi-select-container .multi-select-dropdown {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  max-width: max-content;
+  min-width: 100%;
+  white-space: nowrap;
+}
+
+.multi-select-container .multi-select-dropdown .multi-select-option {
+  white-space: normal;
+}
+
 #markdown {
-  font-family: "Helvetica Neue", sans-serif;
-  font-size: 16px;
+  font-family: "Montserrat";
+  font-size: 26px;
   line-height: 1.6;
   color: #f2f2f2;
   padding: 20px;
   margin: 20px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 14px;
   background-color: #476f9d;
+  margin-inline: 20%;
+}
+
+@media screen and (max-width: 1025px) {
+  #markdown {
+    font-size: 20px;
+    margin-inline: 10%;
+  }
+}
+@media screen and (max-width: 641px) {
+  #markdown {
+    font-size: 14px;
+    margin-inline: 4%;
+  }
 }
 
 #markdown h1,
@@ -50,7 +110,7 @@ html {
 #markdown h5,
 #markdown h6 {
   font-weight: 600;
-  margin-top: 2em;
+  margin-top: 1em;
   margin-bottom: 0.5em;
 }
 
@@ -134,6 +194,7 @@ html {
   color: #23527c;
   border-bottom: 1px solid #23527c;
 }
+
 #ingredients {
   padding: 10px;
   border: 1px solid #ccc;
@@ -176,23 +237,55 @@ html {
 }
 
 #newRecipeForm {
-  padding: 10px, 10px, 10px, 10px;
-  background-image: linear-gradient(to right, #000000, #ffffff);
-  animation: gradient 20s ease infinite;
+  border-radius: 40px;
+  margin-bottom: 40px;
+  background: linear-gradient(to bottom right, #565eb0, #2d5e8d, #186479, #2d5e8d, #565eb0);
+  background-size: 300% 800%;
+  animation: gradient 12s cubic-bezier(0.31, 0.19, 0.73, 0.83) infinite;
 }
 
 @keyframes gradient {
   0% {
-    background-position: 0 50%;
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 0% 0%;
   }
   50% {
     background-position: 100% 50%;
   }
+  75% {
+    background-position: 100% 100%;
+  }
   100% {
-    background-position: 0 50%;
+    background-position: 0% 50%;
   }
 }
+#newRecipeForm ::-webkit-scrollbar {
+width: 0.75em;
+scroll-behavior: smooth;
+}
 
+#newRecipeForm ::-webkit-scrollbar-thumb {
+background-color: #ccc;
+}
+
+#newRecipeForm #newRecipeForm ::-webkit-scrollbar-button {
+display: none;
+}
+
+#newRecipeForm ::-webkit-scrollbar-track {
+background-color: #f5f5f5;
+}
+#newRecipeForm ::-webkit-scrollbar-track-piece:start {
+  margin-top: 0;
+}
+
+#label {
+  font-size: x-large;
+  color: #ffe4e1;
+  font-family: Roboto Flex;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -321,22 +414,70 @@ Note: Beware of modifying this element as it can break the animations - you shou
   }
 }
 
+
 .signUp {
-  background-color: #f6733b;
-  color: #c82626;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  font-weight: 600;
-  transition: background-color 0.2s ease-out;
+  width: 30%;
+  font-size: 1.2rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  margin: 1rem;
 }
 
-/* Apply button styles to all buttons */
-signUp {
-  /* Use the .signUp class for button styles */
-  @apply signUp !important;
+@media screen and (max-width: 640px) {
+  .signUp {
+    width: 40%;
+  }
 }
 
-/* Add hover styles to buttons */
-.signUp:hover {
-  background-color: #2563eb !important;
+@media screen and (max-width: 438px) {
+  .signUp {
+    width: 50%;
+  }
+}
+
+/* GitHub button style */
+#git {
+  background-color: #24292e;
+  color: #fff;
+}
+
+#git:hover {
+  background-color: #1f2428;
+}
+
+/* Google button style */
+#google {
+  background-color: #fff;
+  color: #595959;
+  border: 1px solid #737373;
+}
+
+#google:hover {
+  background-color: #eee;
+}
+
+/* logOut button style */
+#logOut {
+  background-color: #3b3b5f;
+  color: #ceeaff;
+  border: 1px solid #737373;
+}
+
+#logOut:hover {
+  background-color: #2e2e61;
+}
+
+::-webkit-scrollbar {
+  width: 0.75em;
+  scroll-behavior: smooth;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #476f9d;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
+::-webkit-scrollbar-track {
+  background-color: #1d2d3a;
 }
