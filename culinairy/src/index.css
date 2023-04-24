@@ -1,0 +1,482 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+html {
+  max-width: 100%;
+  max-height: 100%;
+  overflow-x: hidden;
+  /* overflow-y: hidden; */
+  background-color: #243847;
+}
+
+#notification-popup {
+  font-family: "Montserrat";
+  position: fixed;
+  font-size: 2em;
+  font-weight: bold;
+  top: 20px;
+  right: 20px;
+  border: 1px solid #000000s;
+  padding: 20px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 9999;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.4;
+  border-radius: 4px;
+}
+
+#notification-popup p {
+  margin: 0;
+}
+
+#outer-container {
+  position: fixed;
+  z-index: 5;
+
+  perspective: none !important;
+}
+#app {
+  perspective: 1000px;
+  position: absolute;
+  /* z-index: 1; */
+}
+
+#TopBar {
+  position: sticky !important;
+  /* width: calc(100vw - 10px); */
+  top: 0px;
+  right: -60px;
+  z-index: 4 !important;
+  /* background-color: #243847; */
+  perspective: unset;
+}
+
+#inner-form-box {
+  margin-bottom: 1em;
+}
+
+.multi-select-container {
+  position: relative;
+  display: inline-block;
+  max-width: max-content;
+}
+
+.multi-select-container .multi-select-dropdown {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  max-width: max-content;
+  min-width: 100%;
+  white-space: nowrap;
+}
+
+.multi-select-container .multi-select-dropdown .multi-select-option {
+  white-space: normal;
+}
+
+#markdown {
+  font-family: "Montserrat";
+  font-size: 26px;
+  line-height: 1.6;
+  color: #f2f2f2;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid #ccc;
+  border-radius: 14px;
+  background-color: #476f9d;
+  margin-inline: 20%;
+}
+
+@media screen and (max-width: 1025px) {
+  #markdown {
+    font-size: 20px;
+    margin-inline: 10%;
+  }
+}
+@media screen and (max-width: 641px) {
+  #markdown {
+    font-size: 14px;
+    margin-inline: 4%;
+  }
+}
+
+#markdown h1,
+#markdown h2,
+#markdown h3,
+#markdown h4,
+#markdown h5,
+#markdown h6 {
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+#markdown h1 {
+  font-size: 2em;
+}
+
+#markdown h2 {
+  font-size: 1.5em;
+}
+
+#markdown h3 {
+  font-size: 1.2em;
+}
+
+#markdown h4 {
+  font-size: 1em;
+}
+
+#markdown h5 {
+  font-size: 0.9em;
+}
+
+#markdown h6 {
+  font-size: 0.8em;
+}
+
+#markdown p {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#markdown ul,
+#markdown ol {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding-left: 2em;
+}
+
+#markdown ul li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#markdown ol li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+#markdown blockquote {
+  margin: 0;
+  padding: 0 1em;
+  border-left: 4px solid #ccc;
+  color: #777;
+}
+
+#markdown code {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9em;
+  background-color: #f8f8f8;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+#markdown pre code {
+  font-size: 1em;
+  padding: 1em;
+  overflow-x: auto;
+  display: block;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+#markdown a {
+  color: #337ab7;
+  text-decoration: none;
+  border-bottom: 1px solid #337ab7;
+}
+
+#markdown a:hover {
+  color: #23527c;
+  border-bottom: 1px solid #23527c;
+}
+
+#ingredients {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+#ingredients:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+#ingredients::selection {
+  background-color: #3b82f6;
+  color: #fff;
+}
+
+.closeB {
+  color: #565eb0;
+  font-size: 20px;
+  transition: color 0.2s ease-in-out;
+}
+.closeB:hover {
+  color: #393e79;
+}
+
+.tag {
+  background-color: #e5e7eb;
+  border-color: transparent;
+  padding: 4px 4px;
+  margin: 2px;
+  border-radius: 4px;
+  width: max-content;
+}
+
+.tag:focus {
+  background-color: #3b82f6;
+  color: #fff;
+}
+
+#newRecipeForm {
+  border-radius: 40px;
+  margin-bottom: 40px;
+  background: linear-gradient(to bottom right, #565eb0, #2d5e8d, #186479, #2d5e8d, #565eb0);
+  background-size: 300% 800%;
+  animation: gradient 12s cubic-bezier(0.31, 0.19, 0.73, 0.83) infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+#newRecipeForm ::-webkit-scrollbar {
+width: 0.75em;
+scroll-behavior: smooth;
+}
+
+#newRecipeForm ::-webkit-scrollbar-thumb {
+background-color: #ccc;
+}
+
+#newRecipeForm #newRecipeForm ::-webkit-scrollbar-button {
+display: none;
+}
+
+#newRecipeForm ::-webkit-scrollbar-track {
+background-color: #f5f5f5;
+}
+#newRecipeForm ::-webkit-scrollbar-track-piece:start {
+  margin-top: 0;
+}
+
+#label {
+  font-size: x-large;
+  color: #ffe4e1;
+  font-family: Roboto Flex;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: absolute;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+}
+@media screen and (max-width: 640px) {
+  .bm-burger-button {
+    position: absolute;
+    width: 36px;
+    height: 30px;
+    left: 22.5px;
+    top: 17px;
+  }
+}
+@media screen and (max-width: 438px) {
+  .bm-burger-button {
+    position: absolute;
+    width: 36px;
+    height: 30px;
+    left: 15.5px;
+    top: 12px;
+  }
+}
+#react-burger-menu-btn {
+  /* z-index: 10 !important; */
+}
+.bm-burger-button button:focus {
+  outline: 2px solid #00acbf;
+  outline-offset: 8px;
+}
+.bm-burger-button button:focus + span span.bm-burger-bars {
+  background-color: #00acbf;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: #565eb0;
+}
+
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+  background: #5259ad;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+.bm-cross-button button:focus {
+  outline: 2px solid #00acbf;
+  outline-offset: 2px;
+}
+.bm-cross-button button:focus + span span.bm-cross {
+  background-color: #00acbf;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #565eb0;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+.bm-menu a {
+  color: #b8b7ad;
+}
+.bm-menu a:hover {
+  color: #7bc7fb;
+}
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #565eb0;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em;
+}
+.bm-item-list a {
+  padding: 0.8em;
+}
+.bm-item-list a span {
+  margin-left: 10px;
+  font-weight: 700;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+  outline: none;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+@media screen and (max-width: 80em) {
+  main {
+    padding-bottom: 12em;
+  }
+}
+
+
+.signUp {
+  width: 30%;
+  font-size: 1.2rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  margin: 1rem;
+}
+
+@media screen and (max-width: 640px) {
+  .signUp {
+    width: 40%;
+  }
+}
+
+@media screen and (max-width: 438px) {
+  .signUp {
+    width: 50%;
+  }
+}
+
+/* GitHub button style */
+#git {
+  background-color: #24292e;
+  color: #fff;
+}
+
+#git:hover {
+  background-color: #1f2428;
+}
+
+/* Google button style */
+#google {
+  background-color: #fff;
+  color: #595959;
+  border: 1px solid #737373;
+}
+
+#google:hover {
+  background-color: #eee;
+}
+
+/* logOut button style */
+#logOut {
+  background-color: #3b3b5f;
+  color: #ceeaff;
+  border: 1px solid #737373;
+}
+
+#logOut:hover {
+  background-color: #2e2e61;
+}
+
+::-webkit-scrollbar {
+  width: 0.75em;
+  scroll-behavior: smooth;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #476f9d;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
+::-webkit-scrollbar-track {
+  background-color: #1d2d3a;
+}
