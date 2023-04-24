@@ -18,7 +18,7 @@ Once the project moves into development, the press release can be used as a touc
 <img src="logo.png"/>
 
 ## The Recipe App for Tech Foodies ##
-  CulinAiry is a single page website that generates delicious meal recipes using ChatGPT AI technology. Our app is perfect for foodies who want to discover new and exciting meals to add to their culinary repertoire.
+  CulinAiry is a multi page website that generates delicious meal recipes using ChatGPT AI technology. Our app is perfect for foodies who want to discover new and exciting meals to add to their culinary repertoire.
 
 ## Summary ##
   CulinAiry is the perfect app for those who love to cook and experiment with new recipes. Our platform generates mouth-watering meal ideas using the latest AI technology. With just a few clicks, you can discover new and exciting meals that are sure to impress your family and friends..
