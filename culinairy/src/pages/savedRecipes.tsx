@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { getUserRecipes, saveUserRecipe, deleteUserRecipe, Recipe } from '../db/firebaseRecipes';
 import { UserState } from "../reducers/userSlice";
 import Markdown from 'markdown-to-jsx';
+import { marked } from 'marked';
 
 export default function SavedRecipes() {
   const loggedIn = useSelector((state: { user: UserState }) => state.user.loggedIn);
@@ -35,6 +36,18 @@ export default function SavedRecipes() {
         recipe.recipe.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter((recipe) => !showFavorites || recipe.favorite);
+
+  const printRecipe = (recipe: Recipe) => {
+    const newWindow = window.open('', '_blank');
+    if (newWindow) {
+      const html = marked(recipe.recipe);
+      newWindow.document.write(`<html><head><title>${recipe.name}</title></head><body>${html}</body></html>`);
+      newWindow.document.close();
+      newWindow.onload = () => {
+        newWindow.print();
+      };
+    }
+  };
 
   return (
     <div className="text-center">
@@ -74,9 +87,13 @@ export default function SavedRecipes() {
                   <Markdown>{recipe.recipe}</Markdown>
                 </div>
                 <button
+                  className={'fa fa-print text-[2em] text-stone-900 mr-5'}
+                  onClick={() => printRecipe(recipe)}
+                />
+                <button
                   className={'fa-solid fa-trash-can text-[2em] text-stone-900'}
-                onClick={() => deleteRecipe(recipe)}
-                    />
+                  onClick={() => deleteRecipe(recipe)}
+                />
               </div>
             ))
           ) : (
