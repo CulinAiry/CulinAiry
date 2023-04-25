@@ -1,4 +1,4 @@
-import { doc, getDocs, setDoc, collection, deleteDoc } from 'firebase/firestore';
+import { doc, getDocs, setDoc, collection, deleteDoc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export type Recipe = {
@@ -9,13 +9,18 @@ export type Recipe = {
 
 export const saveUserRecipe = async (userId: string, recipe: Recipe) => {
   try {
-    const recipeRef = doc(db, `userRecipes/${userId}/recipes`, recipe.name);
+    const userRef = doc(db, 'userRecipes', userId);
+    const userSnapshot = await getDoc(userRef);
+    if (!userSnapshot.exists()) {
+      await setDoc(userRef, {});
+    }
+    const recipeRef = doc(db, `userRecipes/${userId}/recipes/${recipe.name}`);
     await setDoc(recipeRef, recipe);
-    return
   } catch (error) {
     console.error('Error saving user recipe:', error);
   }
 };
+
 
 export const getUserRecipes = async (userId: string) => {
   try {
