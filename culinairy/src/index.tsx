@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Suspense } from "react";
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux";
 import store from "./store";
+const App = React.lazy(() => import("./App"));
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,7 +13,14 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      <App />
+      <Suspense fallback={
+        <div className="flex h-screen items-center justify-center">
+        <div className="text-4xl text-gray-500">
+          <i className="fas fa-gear fa-spin text-[2em] text-[#5259ad]"></i>
+        </div>
+      </div>}>
+        <App />
+      </Suspense>
     </React.StrictMode>
   </Provider>
 );

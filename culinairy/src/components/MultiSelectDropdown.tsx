@@ -1,6 +1,6 @@
 import { MultiSelect, Option } from "react-multi-select-component";
 import MultiSelectDropdownProps from "../interfaces/MultiSelectDropdownProps";
-import { useReducer, useEffect } from "react";
+import { useReducer } from "react";
 import { NewOption } from "../interfaces/NewOption";
 import { getEmoji } from "../scripts/emojiFromEnglish";
 

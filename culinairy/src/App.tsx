@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Login from "./pages/Login";
 import HomePage from "./pages/HomePage";
 import About from "./pages/About";
 import NewRecipe from "./pages/NewRecipe";
 import ProfilePicture from "./components/ProfilePic";
-import { useSelector, useDispatch } from "react-redux";
-import { loginUser, logoutUser, UserState } from "./reducers/userSlice";
+import { useSelector } from "react-redux";
+import { UserState } from "./reducers/userSlice";
 import {
   slide as SlideMenu,
   stack as StackMenu,

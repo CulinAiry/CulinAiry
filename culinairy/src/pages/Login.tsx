@@ -1,13 +1,12 @@
 import { auth } from "../firebase";
-import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { loginUser, logoutUser, UserState } from "../reducers/userSlice";
 import {
   GoogleAuthProvider,
   GithubAuthProvider,
   signInWithPopup,
 } from 'firebase/auth';
 import showNotificationPopup from "../components/showNotificationPopup";
+import { loginUser, logoutUser, UserState } from "../reducers/userSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
