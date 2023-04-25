@@ -93,7 +93,6 @@ export default function NewRecipe() {
         // Ended
         const end = messageTuple[1];
         if (end) {
-          console.log('here')
           setEnded(true);
           setScrollOn(false)
         }
