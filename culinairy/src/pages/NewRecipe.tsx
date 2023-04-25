@@ -12,6 +12,7 @@ import { getEmoji } from "../scripts/emojiFromEnglish";
 import defaultEmojiMap from '../scripts/defaultEmojiMap';
 import { saveUserRecipe } from '../db/firebaseRecipes';
 import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 
 export default function NewRecipe() {
   const [selectedOptions, setSelectedOptions] = useState<Record<OptionType, string[]>>({
@@ -31,6 +32,7 @@ export default function NewRecipe() {
   const [inputValue, setInputValue] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [title, setTitle] = useState<string>('');
+  const navigate = useNavigate();
 
   // Auto scroll while responding, if user scrolls, break auto scroll
   useEffect(() => {
@@ -180,6 +182,9 @@ export default function NewRecipe() {
 
   function save() {
     saveUserRecipe(user.uid, { name: title, recipe: response, favorite: false })
+      .then(() => {
+        navigate('/saved-recipes');
+      })
   }
   return (
     <div id="newRecipeForm" className="min-w-fit sm:max-w-[80vw] min-height-[100vw] p-7 md:p-20 mx-[4vw] sm:mx-[10vw] md:mx-[15vw] ">
@@ -296,7 +301,9 @@ export default function NewRecipe() {
               {response}
             </Markdown>
           </div>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded mt-4" onClick={save}>Save</button>
+          {ended && (
+            <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded mt-4" onClick={save}>Save</button>
+          )}
         </div>
       )}
       <div id="tracker" />

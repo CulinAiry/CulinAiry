@@ -11,6 +11,7 @@ export const saveUserRecipe = async (userId: string, recipe: Recipe) => {
   try {
     const recipeRef = doc(db, `userRecipes/${userId}/recipes`, recipe.name);
     await setDoc(recipeRef, recipe);
+    return
   } catch (error) {
     console.error('Error saving user recipe:', error);
   }
