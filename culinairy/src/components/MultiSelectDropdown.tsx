@@ -36,17 +36,17 @@ export default function MultiSelectDropdown({ label, options, value, optionType,
       value: inputValue,
       isNew: true,
     };
-    console.log('%c old selectedOptions', 'color: blue', selectedOptions);
-    console.log('%c newOption', 'color: green', newOption);
+    // console.log('%c old selectedOptions', 'color: blue', selectedOptions);
+    // console.log('%c newOption', 'color: green', newOption);
 
     dispatch({ type: "ADD_OPTION", payload: newOption });
     return newOption;
   };
 
   const handleChange = (newSelectedOptions: NewOption[] | Option[]) => {
-    console.log('%c change', 'color: red');
-    console.log('%c old selectedOptions', 'color: orange', selectedOptions);
-    console.log('%c newSelectedOptions', 'color: yellow', newSelectedOptions);
+    // console.log('%c change', 'color: red');
+    // console.log('%c old selectedOptions', 'color: orange', selectedOptions);
+    // console.log('%c newSelectedOptions', 'color: yellow', newSelectedOptions);
 
     dispatch({ type: "SET_OPTIONS", payload: newSelectedOptions });
     onChange(newSelectedOptions, optionType);
