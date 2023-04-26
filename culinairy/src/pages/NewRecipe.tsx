@@ -34,24 +34,49 @@ export default function NewRecipe() {
   const [title, setTitle] = useState<string>('');
   const navigate = useNavigate();
 
-  // Auto scroll while responding, if user scrolls, break auto scroll
   useEffect(() => {
     const root = document.documentElement;
-    const wheelHandler = () => setScrollOn(false);
-    window.addEventListener('wheel', wheelHandler);
 
-    // console.log(`${(root.scrollTop + root.clientHeight + 10)} > ${root.scrollHeight}`)
-    if ((root.scrollTop + root.clientHeight + 30) > root.scrollHeight) {
+    const wheelHandler = () => setScrollOn(false);
+    const touchStartHandler = () => setScrollOn(false);
+    const touchMoveHandler = () => setScrollOn(false);
+
+    window.addEventListener('wheel', wheelHandler);
+    window.addEventListener('touchstart', touchStartHandler);
+    window.addEventListener('touchmove', touchMoveHandler);
+
+    if (root.scrollTop + root.clientHeight + 10 > root.scrollHeight) {
       setScrollOn(true);
     }
 
-    if (response && scrollOn) {
-      root.scrollTo({ top: root.scrollHeight, behavior: 'smooth' })
+    let canScroll = true;
+
+    function debounceScroll() {
+      if (canScroll) {
+        canScroll = false;
+        setTimeout(() => {
+          canScroll = true;
+          if (scrollOn) {
+            root.scrollTo({ top: root.scrollHeight, behavior: 'smooth' });
+          }
+        }, 500);
+      }
     }
+
+    if (response && scrollOn) {
+      debounceScroll();
+    }
+
     return () => {
       window.removeEventListener('wheel', wheelHandler);
+      window.removeEventListener('touchstart', touchStartHandler);
+      window.removeEventListener('touchmove', touchMoveHandler);
     };
   }, [response, scrollOn]);
+
+
+
+
 
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -94,11 +119,15 @@ export default function NewRecipe() {
         const end = messageTuple[1];
         if (end) {
           setEnded(true);
-          setScrollOn(false)
+          setScrollOn(false);
+          const root = document.documentElement;
+          root.scrollTo({ top: root.scrollHeight, behavior: 'smooth' });
+        } else {
+          setResponse(messageTuple[0]);
         }
-        setResponse(messageTuple[0]);
       });
   }
+
 
   function buildRequestString(request: RecipeRequest): string {
     const { timeToMake, mealType, cuisine, dietaryRestrictions, cookingAccessibility, allergies } = request;
@@ -186,126 +215,131 @@ export default function NewRecipe() {
       })
   }
   return (
-    <div id="newRecipeForm" className="min-w-fit sm:max-w-[80vw] min-height-[100vw] p-7 md:p-20 mx-[4vw] sm:mx-[10vw] md:mx-[15vw] ">
-      <form onSubmit={handleSubmit} className="flow-root lg:grid gap-4 md:grid-cols-2">
-        <div id="inner-form-box">
-          <Dropdown
-            label="Time to make:   "
-            options={selectedOptions['timeToMake']}
-            value={recipeRequest.timeToMake || ""}
-            onChange={(event) =>
-              setRecipeRequest({
-                ...recipeRequest,
-                timeToMake: event.target.value,
-              })
-            }
-          />
-        </div>
-        <div id="inner-form-box">
-          <Dropdown
-            label="Meal type:   "
-            options={selectedOptions['mealType']}
-            value={recipeRequest.mealType || ""}
-            onChange={(event) =>
-              setRecipeRequest({
-                ...recipeRequest,
-                mealType: event.target.value,
-              })
-            }
-          />
-        </div>
-        <div id="inner-form-box">
-          <MultiSelectDropdown
-            label="Cuisines:   "
-            options={selectedOptions['cuisine']}
-            value={recipeRequest.cuisine || []}
-            optionType="cuisine"
-            onChange={handleDropdownChange}
-          />
-        </div>
-        <div id="inner-form-box">
-          <MultiSelectDropdown
-            label="Allergies:   "
-            options={selectedOptions['allergies']}
-            value={recipeRequest.cookingAccessibility || []}
-            optionType="allergies"
-            onChange={handleDropdownChange}
-          />
-        </div>
-        <div id="inner-form-box">
-          <MultiSelectDropdown
-            label="Dietary restrictions:   "
-            options={selectedOptions['dietaryRestrictions']}
-            value={recipeRequest.dietaryRestrictions || []}
-            optionType="dietaryRestrictions"
-            onChange={handleDropdownChange}
-          />
-        </div>
-        <div id="inner-form-box">
-          <MultiSelectDropdown
-            label="Cooking accessibility:   "
-            options={selectedOptions['cookingAccessibility']}
-            value={recipeRequest.cookingAccessibility || []}
-            optionType="cookingAccessibility"
-            onChange={handleDropdownChange}
-          />
-        </div>
-        <div>
-          <label className="w-full">
-            <span id="label">Available ingredients:</span>
-            <br />
-            <span id="label" className="text-[1em] text-stone-300">{'(Or what dish you would like)'}</span>
-            <input
-              type="text"
-              id="ingredients"
-              value={inputValue}
-              onChange={handleTagInputChange}
-              placeholder="Enter ingredient and press ; to add"
-              className="w-full"
+    <>
+      <div id="newRecipeForm" className="min-w-fit sm:max-w-[80vw] min-height-[100vw] p-7 md:p-20 mx-[2vw] sm:mx-[10vw] md:mx-[15vw] ">
+      <div className="container mx-auto px-4 text-center" style={{ color: '#ffe4e1' }}>
+        <p className="text-[1.3em] mb-8">Fill out the form and ask for a recipe, or click "Surprise Me" to get a random recipe with no constraints!</p>
+      </div>
+        <form onSubmit={handleSubmit} className="flow-root lg:grid gap-4 md:grid-cols-2">
+          <div id="inner-form-box">
+            <Dropdown
+              label="Time to make:   "
+              options={selectedOptions['timeToMake']}
+              value={recipeRequest.timeToMake || ""}
+              onChange={(event) =>
+                setRecipeRequest({
+                  ...recipeRequest,
+                  timeToMake: event.target.value,
+                })
+              }
             />
-            <div className="w-full">
-              <div className="tags p-2">
-                {tags.map((tag, index) => (
-                  <div key={index} className="tag inline-flex">
-                    <div className="">
-                      {tag}
+          </div>
+          <div id="inner-form-box">
+            <Dropdown
+              label="Meal type:   "
+              options={selectedOptions['mealType']}
+              value={recipeRequest.mealType || ""}
+              onChange={(event) =>
+                setRecipeRequest({
+                  ...recipeRequest,
+                  mealType: event.target.value,
+                })
+              }
+            />
+          </div>
+          <div id="inner-form-box">
+            <MultiSelectDropdown
+              label="Cuisines:   "
+              options={selectedOptions['cuisine']}
+              value={recipeRequest.cuisine || []}
+              optionType="cuisine"
+              onChange={handleDropdownChange}
+            />
+          </div>
+          <div id="inner-form-box">
+            <MultiSelectDropdown
+              label="Allergies:   "
+              options={selectedOptions['allergies']}
+              value={recipeRequest.cookingAccessibility || []}
+              optionType="allergies"
+              onChange={handleDropdownChange}
+            />
+          </div>
+          <div id="inner-form-box">
+            <MultiSelectDropdown
+              label="Dietary restrictions:   "
+              options={selectedOptions['dietaryRestrictions']}
+              value={recipeRequest.dietaryRestrictions || []}
+              optionType="dietaryRestrictions"
+              onChange={handleDropdownChange}
+            />
+          </div>
+          <div id="inner-form-box">
+            <MultiSelectDropdown
+              label="Cooking accessibility:   "
+              options={selectedOptions['cookingAccessibility']}
+              value={recipeRequest.cookingAccessibility || []}
+              optionType="cookingAccessibility"
+              onChange={handleDropdownChange}
+            />
+          </div>
+          <div>
+            <label className="w-full">
+              <span id="label">Available ingredients:</span>
+              <br />
+              <span id="label" className="text-[1em] text-stone-300">{'(Or what dish you would like)'}</span>
+              <input
+                type="text"
+                id="ingredients"
+                value={inputValue}
+                onChange={handleTagInputChange}
+                placeholder="Enter ingredient and press ; to add"
+                className="w-full"
+              />
+              <div className="w-full">
+                <div className="tags p-2">
+                  {tags.map((tag, index) => (
+                    <div key={index} className="tag inline-flex">
+                      <div className="">
+                        {tag}
+                      </div>
+                      <button className="pl-2 pt-[2px]" type="button">
+                        <span className="closeB fa-solid fa-xmark" onClick={() => removeTag(tag)} />
+                      </button>
                     </div>
-                    <button className="pl-2 pt-[2px]" type="button">
-                      <span className="closeB fa-solid fa-xmark" onClick={() => removeTag(tag)} />
-                    </button>
-                  </div>
-                ))}
+                  ))}
+                  <br />
+                </div>
                 <br />
               </div>
-              <br />
-            </div>
-          </label>
-        </div>
-        {ended && (
-          <div className="col-span-2 flex justify-between">
-            <button type="submit" onClick={() => setSurprise(false)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded sm:text-lg sm:py-3 sm:px-6 md:text-xl md:py-4 md:px-8 lg:text-2xl lg:py-5 lg:px-10">
-              Ask
-            </button>
-            <button type="submit" onClick={() => setSurprise(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded sm:text-lg sm:py-3 sm:px-6 md:text-xl md:py-4 md:px-8 lg:text-2xl lg:py-5 lg:px-10">
-              Surprise Me
-            </button>
-          </div>
-        )}
-      </form>
-      {response && (
-        <div>
-          <br />
-          <div id="markdown" className="m-0 p-0 px-[12px] !important">
-            <Markdown>
-              {response}
-            </Markdown>
+            </label>
           </div>
           {ended && (
-            <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded mt-4" onClick={save}>Save</button>
+            <div className="col-span-2 flex justify-between">
+              <button type="submit" onClick={() => setSurprise(false)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded sm:text-lg sm:py-3 sm:px-6 md:text-xl md:py-4 md:px-8 lg:text-2xl lg:py-5 lg:px-10">
+                Ask
+              </button>
+              <button type="submit" onClick={() => setSurprise(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded sm:text-lg sm:py-3 sm:px-6 md:text-xl md:py-4 md:px-8 lg:text-2xl lg:py-5 lg:px-10">
+                Surprise Me
+              </button>
+            </div>
           )}
-        </div>
-      )}
-      <div id="tracker" />
-    </div>
+        </form>
+        {response && (
+          <div>
+            <br />
+            <div id="markdown" className="m-0 mx-[-1em] p-0 px-[12px] !important">
+              <Markdown>
+                {response}
+              </Markdown>
+            </div>
+            {ended && (
+              <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded mt-4" onClick={save}>Save</button>
+            )}
+          </div>
+        )}
+        <div id="tracker" />
+      </div>
+    </>
   );
 }

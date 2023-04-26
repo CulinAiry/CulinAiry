@@ -7,6 +7,7 @@ import {
 } from 'firebase/auth';
 import showNotificationPopup from "../components/showNotificationPopup";
 import { loginUser, logoutUser, UserState } from "../reducers/userSlice";
+// import AdsComponent from '../components/AdsComponent';
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ export default function Login() {
 
   return (
     <div className="text-center">
-          <div id="notification-popup"></div>
+      <div id="notification-popup"></div>
       {loggedIn !== undefined && !loggedIn && (
         <div id="logIn">
           <button type="button" id="git" className="signUp" onClick={gitSignUp}>
@@ -69,6 +70,10 @@ export default function Login() {
           </button>
         </div>
       )}
+      {/* <>
+        <h1>Place To show Google AdSense</h1>
+        <AdsComponent dataAdSlot='X7XXXXXX5X' />
+      </> */}
     </div>
   );
 
