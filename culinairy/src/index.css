@@ -427,7 +427,6 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 
 .signUp {
-  width: 30%;
   font-size: 1.2rem;
   padding: 1rem;
   border: none;
@@ -435,7 +434,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   margin: 1rem;
 }
 
-@media screen and (max-width: 640px) {
+/* @media screen and (max-width: 640px) {
   .signUp {
     width: 40%;
   }
@@ -445,7 +444,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   .signUp {
     width: 50%;
   }
-}
+} */
 
 /* GitHub button style */
 #git {

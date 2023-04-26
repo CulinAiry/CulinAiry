@@ -1,8 +1,11 @@
 import { auth } from "../firebase";
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import {
   GoogleAuthProvider,
   GithubAuthProvider,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
 import showNotificationPopup from "../components/showNotificationPopup";
@@ -14,6 +17,45 @@ export default function Login() {
   const loggedIn = useSelector((state: { user: UserState }) => state.user.loggedIn);
   const googleProvider = new GoogleAuthProvider();
   const gitProvider = new GithubAuthProvider();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  }
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  }
+
+  const handleSignIn = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((res) => {
+        const user = res.user;
+        const loginData = { displayName: user.displayName || '', email: user.email || '', photoURL: user.photoURL || '', uid: user.uid, loggedIn: true };
+        showNotificationPopup(`Logged in as ${user.email}`, '#15d146');
+        dispatch(loginUser(loginData));
+      })
+      .catch((err) => {
+        if (err.code === 'auth/user-not-found') {
+          // If user doesn't exist, create a new account with the same email and password
+          createUserWithEmailAndPassword(auth, email, password)
+            .then((res) => {
+              const user = res.user;
+              const loginData = { displayName: user.displayName || '', email: user.email || '', photoURL: user.photoURL || '', uid: user.uid, loggedIn: true };
+              showNotificationPopup(`Logged in as ${user.email}`, '#15d146');
+              dispatch(loginUser(loginData));
+            })
+            .catch((err) => {
+              alert(`${err.name}: ${err.message}`);
+            });
+        } else {
+          alert(`${err.name}: ${err.message}`);
+        }
+      });
+  }
+
 
   const googleSignUp = () => {
     signInWithPopup(auth, googleProvider)
@@ -42,6 +84,7 @@ export default function Login() {
         alert(`${err.name}: ${err.code}. ${err.customData.email} already has an an account!`);
       })
   }
+
   const logOut = () => {
     showNotificationPopup(`Logged out`, '#de395f');
     dispatch(logoutUser());
@@ -60,11 +103,20 @@ export default function Login() {
             Sign up with Google
             <span className="ml-2 fa-brands fa-google" />
           </button>
+          <div id="email-sign-in" className="bg-[#476f9d] p-4 rounded-lg mx-[30vw]">
+            <div className="mt-4">
+              <input type="email" placeholder="Email" value={email} onChange={handleEmailChange} className="border rounded-lg p-2 mb-2" />
+              <input type="password" placeholder="Password" value={password} onChange={handlePasswordChange} className="border rounded-lg p-2" />
+            </div>
+            <button type="button" className="bg-[#2e3687] hover:bg-[#3a439c] text-white mt-2 px-4 py-2 rounded-md" onClick={handleSignIn}>
+              Sign in with email
+            </button>
+          </div>
+
         </div>
       )}
       {loggedIn !== undefined && loggedIn && (
         <div id="logIn">
-          <div id="notification-popup"></div>
           <button type="button" id="logOut" className="signUp" onClick={logOut}>
             Log Out
           </button>
