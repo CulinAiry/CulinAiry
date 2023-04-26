@@ -14,7 +14,7 @@ export default function Dropdown({ label, options, value, onChange }: DropdownPr
           value={value}
           onChange={onChange}
           className="box-border h-10 rounded-md text-gray-600 border-none pl-4 pr-9 py-[0.375rem]">
-          <option value="">Select an option</option>
+          <option value="">Any</option>
           {options.map((option) => (
             <option key={option} value={option}>
               {option}

@@ -45,16 +45,42 @@ export default function SavedRecipes() {
     .filter((recipe) => !showFavorites || recipe.favorite);
 
   const printRecipe = (recipe: Recipe) => {
-    const newWindow = window.open('', '_blank');
-    if (newWindow) {
-      const html = marked(recipe.recipe);
-      newWindow.document.write(`<html><head><title>${recipe.name}</title></head><body>${html}</body></html>`);
-      newWindow.document.close();
-      newWindow.onload = () => {
-        newWindow.print();
-      };
+    const html = marked(recipe.recipe);
+    const printWindow = window.open('', 'Print Recipe', 'height=600,width=800');
+    if (typeof printWindow?.document !== 'undefined') {
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>${recipe.name}</title>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+              }
+              h1, h2, h3, h4, h5, h6 {
+                margin-top: 0;
+              }
+              img {
+                max-width: 100%;
+              }
+            </style>
+          </head>
+          <body>
+            <h1>${recipe.name}</h1>
+            ${html}
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print();
+    } else if (typeof document !== 'undefined') {
+      const link = document.createElement('a');
+      link.href = `data:text/html;charset=UTF-8,${html}`;
+      link.download = `${recipe.name}.html`;
+      link.click();
     }
   };
+
 
   return (
     <div className="text-center">
@@ -81,39 +107,39 @@ export default function SavedRecipes() {
               <i className="fas fa-gear fa-spin text-[2em] text-[#5259ad]"></i>
             </div>
           ) : (
-              filteredRecipes.length > 0 ? (
-                filteredRecipes.map((recipe) => (
-                  <div
-                    key={recipe.name}
-                    id="markdown"
-                    className="text-left flex justify-between items-start"
-                  >
-                    <div>
-                      <button
-                        className={`fa fa-star text-[2em]`}
-                        style={{
-                          color: recipe.favorite ? '#eed21b' : 'rgb(214 211 209 / var(--tw-text-opacity))'
-                        }}
-                        onClick={() => toggleFavorite(recipe)}
-                      />
-                      <Markdown>{recipe.recipe}</Markdown>
-                    </div>
+            filteredRecipes.length > 0 ? (
+              filteredRecipes.map((recipe) => (
+                <div
+                  key={recipe.name}
+                  id="markdown"
+                  className="text-left flex justify-between items-start"
+                >
+                  <div>
                     <button
-                      className={'fa fa-print text-[2em] text-stone-900 mr-5'}
-                      onClick={() => printRecipe(recipe)}
+                      className={`fa fa-star text-[2em]`}
+                      style={{
+                        color: recipe.favorite ? '#eed21b' : 'rgb(214 211 209 / var(--tw-text-opacity))'
+                      }}
+                      onClick={() => toggleFavorite(recipe)}
                     />
-                    <button
-                      className={'fa-solid fa-trash-can text-[2em] text-[#C96C45]'}
-                      onClick={() => deleteRecipe(recipe)}
-                    />
+                    <Markdown>{recipe.recipe}</Markdown>
                   </div>
-                ))
-              ) : (
-                <div id="markdown">
-                  <Markdown>There are no saved recipes to display.</Markdown>
+                  <button
+                    className={'fa fa-print text-[2em] text-stone-900 mr-5'}
+                    onClick={() => printRecipe(recipe)}
+                  />
+                  <button
+                    className={'fa-solid fa-trash-can text-[2em] text-[#C96C45]'}
+                    onClick={() => deleteRecipe(recipe)}
+                  />
                 </div>
-              )
-            )}
+              ))
+            ) : (
+              <div id="markdown">
+                <Markdown>There are no saved recipes to display.</Markdown>
+              </div>
+            )
+          )}
         </div>
       )}
       {loggedIn !== undefined && !loggedIn && (
