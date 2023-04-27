@@ -74,11 +74,6 @@ export default function NewRecipe() {
     };
   }, [response, scrollOn]);
 
-
-
-
-
-
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
