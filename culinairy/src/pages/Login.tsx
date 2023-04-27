@@ -91,42 +91,44 @@ export default function Login() {
   }
 
   return (
-    <div className="text-center">
-      <div id="notification-popup"></div>
-      {loggedIn !== undefined && !loggedIn && (
-        <div id="logIn">
-          <button type="button" id="git" className="signUp" onClick={gitSignUp}>
-            Sign up with GitHub
-            <span className="ml-2 fa-brands fa-github" />
-          </button>
-          <button type="button" id="google" className="signUp" onClick={googleSignUp}>
-            Sign up with Google
-            <span className="ml-2 fa-brands fa-google" />
-          </button>
-          <div id="email-sign-in" className="bg-[#476f9d] p-4 rounded-lg mx-[30vw]">
-            <div className="mt-4">
-              <input type="email" placeholder="Email" value={email} onChange={handleEmailChange} className="border rounded-lg p-2 mb-2" />
-              <input type="password" placeholder="Password" value={password} onChange={handlePasswordChange} className="border rounded-lg p-2" />
-            </div>
-            <button type="button" className="bg-[#2e3687] hover:bg-[#3a439c] text-white mt-2 px-4 py-2 rounded-md" onClick={handleSignIn}>
-              Sign in with email
-            </button>
-          </div>
-
-        </div>
-      )}
-      {loggedIn !== undefined && loggedIn && (
-        <div id="logIn">
-          <button type="button" id="logOut" className="signUp" onClick={logOut}>
-            Log Out
+    <div className="flex justify-center h-screen">
+  <div id="notification-popup"></div>
+  {loggedIn !== undefined && !loggedIn && (
+    <div id="logIn" className="max-w-[100vw] flex flex-col items-center">
+      <div className="max-w-[100vw] flex md:flex-row items-center">
+        <button type="button" id="git" className="signUp mb-2" onClick={gitSignUp}>
+          Sign up with GitHub
+          <span className="ml-2 fa-brands fa-github" />
+        </button>
+        <button type="button" id="google" className="signUp mb-4" onClick={googleSignUp}>
+          Sign up with Google
+          <span className="ml-2 fa-brands fa-google" />
+        </button>
+      </div>
+      <div id="email-sign-in" className="bg-[#476f9d] p-4 rounded-lg max-w-[90vw]">
+        <div className="mt-4 flex flex-col items-center">
+          <input type="email" placeholder="Email" value={email} onChange={handleEmailChange} className="border rounded-lg p-2 mb-2 w-full max-w-md" />
+          <input type="password" placeholder="Password" value={password} onChange={handlePasswordChange} className="border rounded-lg p-2 w-full max-w-md" />
+          <button type="button" className="bg-[#2e3687] hover:bg-[#3a439c] text-white mt-2 px-4 py-2 rounded-md" onClick={handleSignIn}>
+            Sign in with email
           </button>
         </div>
-      )}
-      {/* <>
-        <h1>Place To show Google AdSense</h1>
-        <AdsComponent dataAdSlot='X7XXXXXX5X' />
-      </> */}
+      </div>
     </div>
+  )}
+  {loggedIn !== undefined && loggedIn && (
+    <div id="logIn">
+      <button type="button" id="logOut" className="signUp" onClick={logOut}>
+        Log Out
+      </button>
+    </div>
+  )}
+  {/* <>
+    <h1>Place To show Google AdSense</h1>
+    <AdsComponent dataAdSlot='X7XXXXXX5X' />
+  </> */}
+</div>
+
   );
 
 }
