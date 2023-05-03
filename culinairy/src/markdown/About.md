@@ -33,7 +33,7 @@ Once the project moves into development, the press release can be used as a touc
   "At CulinAiry, we're passionate about creating innovative solutions to make meal planning easier and more enjoyable for everyone."
 
 ## How to Get Started ##
-  Getting started with CulinAiry is easy. Simply log in using your Google or GitHub account to access our platform. From there, you can generate and save your favorite recipes to your unique saved recipes.
+  Getting started with CulinAiry is easy. You can simply log in using your email and password, or alternatively, you can log in using your Google or GitHub account to access our platform. Once you have logged in, you can generate and save your favorite recipes to your personal saved recipes list.
 
 ## Customer Quote ##
   "I love using CulinAiry to discover new and exciting meals to try. The app is easy to use, and the recipes are always delicious. It's like having a personal chef at my fingertips!" - Jane, CulinAiry user.

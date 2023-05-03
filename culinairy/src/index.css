@@ -1,6 +1,6 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 html {
   max-width: 100%;
@@ -236,10 +236,64 @@ html {
   color: #fff;
 }
 
+/* .hyper {
+  border: solid;
+  border-color: #2e3687;
+  border-width: thin;
+  background: linear-gradient(
+    to bottom right,
+    #186479,
+    #565eb0,
+    #2d5e8d,
+    #565eb0,
+    #186479
+  );
+  background-size: 1000% 5000%;
+  animation: gradient 12s cubic-bezier(0.31, 0.19, 0.73, 0.83) infinite;
+} */
+.hyper {
+  border: solid;
+  border-width: 0.05em;
+  border-radius: 0.7em;
+  /* background-size: 1000% 5000%; */
+  animation: gradientBorder 12s cubic-bezier(1, 2.69, 0.43, 1.43) infinite;
+}
+
+@keyframes gradientBorder {
+  0% {
+    border-color: #00b5b6;
+  }
+  20% {
+    border-color: #009ac6;
+  }
+  40% {
+    border-color: #3a439c;
+  }
+  60% {
+    border-color: #005fb8;
+  }
+  80% {
+    border-color: #3a439c;
+  }
+  90% {
+    border-color: #009ac6;
+  }
+  100% {
+    border-color: #00b5b6;
+  }
+}
+
 #newRecipeForm {
   border-radius: 40px;
   margin-bottom: 40px;
-  background: linear-gradient(to bottom right, #565eb0, #2d5e8d, #186479, #2d5e8d, #565eb0);
+  background: linear-gradient(
+    to bottom right,
+    #565eb0,
+    #2d5e8d,
+    #186479,
+    #2d5e8d,
+    #565eb0
+  );
   background-size: 300% 800%;
   animation: gradient 12s cubic-bezier(0.31, 0.19, 0.73, 0.83) infinite;
 }
@@ -262,20 +316,20 @@ html {
   }
 }
 #newRecipeForm ::-webkit-scrollbar {
-width: 0.75em;
-scroll-behavior: smooth;
+  width: 0.75em;
+  scroll-behavior: smooth;
 }
 
 #newRecipeForm ::-webkit-scrollbar-thumb {
-background-color: #ccc;
+  background-color: #ccc;
 }
 
 #newRecipeForm #newRecipeForm ::-webkit-scrollbar-button {
-display: none;
+  display: none;
 }
 
 #newRecipeForm ::-webkit-scrollbar-track {
-background-color: #f5f5f5;
+  background-color: #f5f5f5;
 }
 #newRecipeForm ::-webkit-scrollbar-track-piece:start {
   margin-top: 0;
@@ -300,7 +354,7 @@ background-color: #f5f5f5;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -424,7 +478,6 @@ Note: Beware of modifying this element as it can break the animations - you shou
     padding-bottom: 12em;
   }
 }
-
 
 .signUp {
   font-size: 1.2rem;

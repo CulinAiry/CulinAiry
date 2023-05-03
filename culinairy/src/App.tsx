@@ -18,15 +18,16 @@ import {
   scaleRotate as ScaleRotateMenu,
   fallDown as FallDownMenu,
   // reveal as RevealMenu
-} from 'react-burger-menu';
+} from "react-burger-menu";
 import SavedRecipes from "./pages/savedRecipes";
+import VerticalFade from "./components/VerticalFade";
 
 function App() {
   // const dispatch = useDispatch();
   const user = useSelector((state: { user: UserState }) => state.user.user);
 
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const [menuStyle, setMenuStyle] = useState<string>('pushRotate');
+  const [menuStyle, setMenuStyle] = useState<string>("pushRotate");
 
   const menuStyles: { [key: string]: any } = {
     slide: SlideMenu,
@@ -36,8 +37,8 @@ function App() {
     push: PushMenu,
     pushRotate: PushRotateMenu,
     scaleRotate: ScaleRotateMenu,
-    fallDown: FallDownMenu
-  }
+    fallDown: FallDownMenu,
+  };
   const MenuStyle = menuStyles[menuStyle]; // Get the correct menu style from the menuStyles object
 
   const handleMenuToggle = () => {
@@ -47,7 +48,9 @@ function App() {
     setMenuOpen(false);
   }, [menuOpen]);
 
-  const handleMenuStyleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleMenuStyleChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     event.preventDefault();
     const newMenuStyle = event.target.value;
     setMenuStyle(newMenuStyle);
@@ -63,52 +66,85 @@ function App() {
         setTopBarHeight(topBarRef.current.offsetHeight);
       }
     }
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize(); // set the initial height
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
     <Router>
       <div>
         <div id="outer-container">
-          <MenuStyle isOpen={menuOpen} id={menuStyle} pageWrapId={"page-wrap"} outerContainerId={"outer-container"}>
+          <MenuStyle
+            isOpen={menuOpen}
+            id={menuStyle}
+            pageWrapId={"page-wrap"}
+            outerContainerId={"outer-container"}
+          >
             <Link className="menu-item" to="/" onClick={handleMenuToggle}>
               Home
             </Link>
-            <Link className="menu-item" to="/new-recipe" onClick={handleMenuToggle}>
+            <Link
+              className="menu-item"
+              to="/new-recipe"
+              onClick={handleMenuToggle}
+            >
               New Recipe
             </Link>
-            <Link className="menu-item" to="/about" onClick={handleMenuToggle}>
-              About
+            <Link
+              className="menu-item"
+              to="/saved-recipes"
+              onClick={handleMenuToggle}
+            >
+              Saved
             </Link>
             <Link className="menu-item" to="/login" onClick={handleMenuToggle}>
               LogIn/LogOut
             </Link>
-            <Link className="menu-item" to="/saved-recipes" onClick={handleMenuToggle}>
-              Saved
+            <Link className="menu-item" to="/about" onClick={handleMenuToggle}>
+              About
             </Link>
-            <select value={menuStyle} onChange={handleMenuStyleChange} className="bg-[#37444c] rounded-md text-white px-2 py-1">
+            <select
+              value={menuStyle}
+              onChange={handleMenuStyleChange}
+              className="bg-[#37444c] rounded-md text-white px-2 py-1"
+            >
               {Object.keys(menuStyles).map((key) => (
                 <option key={key} value={key}>
                   {key}
                 </option>
               ))}
             </select>
-          </MenuStyle >
+          </MenuStyle>
         </div>
 
         <div id="app">
-
-          <div id="TopBar" ref={topBarRef} className="flex justify-end items-center min-h-[60px] max-h-[100px] pl-[60px] pr-[10px] bg-[#1d2d3a] w-[100vw]">
+          <div
+            id="TopBar"
+            ref={topBarRef}
+            className="flex justify-end items-center min-h-[60px] max-h-[100px] pl-[60px] pr-[10px] bg-[#1d2d3a] w-[100vw]"
+          >
+            <VerticalFade
+              offset={10}
+              decay={6}
+              zIndex={-1}
+              parentId={"TopBar"}
+              direction={"Down"}
+              position={1}
+              stick={"bottom"}
+              color={"#1d2d3a"}
+            />
             <div className="flex">
               <ProfilePicture imageUrl={user.photoURL} />
             </div>
             <Link className="" to="/" onClick={(e) => setMenuOpen(false)}>
-              <img src="CulinairyTransBoosted_large.png" className="App-logo w-auto pl-[10px] max-h-[70px] lg:max-h-[100px] sm:my-4 mb-1 flex justify-end items-center" alt="logo" />
+              <img
+                src="CulinairyTransBoosted_large.png"
+                className="App-logo w-auto pl-[10px] max-h-[70px] lg:max-h-[100px] sm:my-4 mb-1 flex justify-end items-center"
+                alt="logo"
+              />
             </Link>
           </div>
-
           <div id="page-wrap" className="pt-[30px] h-auto">
             <style>
               {`
@@ -126,12 +162,10 @@ function App() {
               <Route path="/new-recipe" element={<NewRecipe />} />
             </Routes>
           </div>
-
         </div>
       </div>
     </Router>
   );
 }
-
 
 export default App;

@@ -33,7 +33,7 @@ export const userSlice = createSlice({
   initialState: user,
   reducers: {
     loginUser: (state, action: PayloadAction<UserState['user']>) => {
-      console.log('loginUser', action.payload)
+      // console.log('loginUser', action.payload)
       state.user = action.payload;
       state.loggedIn = true;
       localStorage.setItem('currentUser', JSON.stringify(state));
