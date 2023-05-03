@@ -66,7 +66,7 @@ export default function MultiSelectDropdown({ label, options, value, optionType,
                 const emoji = getEmoji(label) || "";
                 return `${emoji}${label} `;
               })
-              : "Any";
+              : "Any/None";
           }}
           overrideStrings={{
             search: "Search/Add",
