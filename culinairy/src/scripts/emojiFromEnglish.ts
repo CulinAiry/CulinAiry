@@ -15,11 +15,13 @@ export function getEmoji(keyword: string): string | undefined {
     return defaultMatch;
   }
 
+  console.log('here1')
   const exactMatch = emojis[keyword];
   if (exactMatch) {
     return exactMatch;
   }
 
+  console.log('here2')
   const baseKeywords = getSynonyms(keyword);
   const initialKeywords = baseKeywords.flatMap((baseKeyword) => [
     baseKeyword,
@@ -35,6 +37,7 @@ export function getEmoji(keyword: string): string | undefined {
     return regex.test(key);
   });
 
+  console.log('here3')
   // console.log(lightMatches)
   // Now we have a list of emoji keys that slightly match
 
@@ -60,11 +63,11 @@ export function getEmoji(keyword: string): string | undefined {
       highestFrequency = frequency;
     }
   }
-
   // console.log("mostFrequentKey", mostFrequentKey)
   // console.log(emojis[mostFrequentKey || '']);
-  if (defaultEmojiMap[mostFrequentKey || ''] !== '🏳️‍🌈') return defaultEmojiMap[mostFrequentKey || ''];
+  if (!['🍸', '🌿'].includes(defaultEmojiMap[mostFrequentKey || ''])) return defaultEmojiMap[mostFrequentKey || ''];
 
+console.log('here4')
   // console.log(synonymKeywords)
   let closestMatch: string | undefined;
   let closestDistance = Infinity;
@@ -76,8 +79,9 @@ export function getEmoji(keyword: string): string | undefined {
     }
   }
 
-  if (closestMatch) return closestMatch;
+  if (closestMatch && closestMatch !== '🍸') return closestMatch;
 
+  console.log('here5')
   const lightMatches = Object.keys(emojis).filter((key) => {
     const regex = new RegExp(`(${keyword}|${synonymKeywords.join('|')})`);
     return regex.test(key);
@@ -106,8 +110,9 @@ export function getEmoji(keyword: string): string | undefined {
 
   // console.log("mostFrequentKey", mostFrequentKey)
   // console.log(emojis[mostFrequentKey || '']);
-  if (emojis[mostFrequentKey || ''] !== '🏳️‍🌈') return emojis[mostFrequentKey || ''];
+  if (!['🍸', '🌿'].includes(emojis[mostFrequentKey || ''])) return emojis[mostFrequentKey || ''];
 
+  console.log('here6')
   for (const emojiKeyword in emojis) {
     const currentDistance = distance(keyword, emojiKeyword);
     if (currentDistance < closestDistance) {
@@ -116,6 +121,7 @@ export function getEmoji(keyword: string): string | undefined {
     }
   }
 
+  console.log('here7')
   // console.log(closestMatch)
   return closestMatch;
 }

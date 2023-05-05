@@ -11,12 +11,27 @@ import {
 } from "firebase/auth";
 import showNotificationPopup from "../components/showNotificationPopup";
 import { loginUser, logoutUser, UserState } from "../reducers/userSlice";
+import { setCurrent } from "../reducers/recipeSlice";
+import { saveUserRecipe } from "../db/firebaseRecipes";
+import { useNavigate } from "react-router-dom";
+
 // import AdsComponent from '../components/AdsComponent';
 
 export default function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loggedIn = useSelector(
     (state: { user: UserState }) => state.user.loggedIn
+  );
+  interface Recipe {
+    title: string;
+    recipe: string;
+  }
+  interface RecipeState {
+    currentRecipe: Recipe;
+  }
+  const recipe = useSelector(
+    (state: { recipe: RecipeState }) => state.recipe.currentRecipe
   );
   const googleProvider = new GoogleAuthProvider();
   const gitProvider = new GithubAuthProvider();
@@ -32,35 +47,40 @@ export default function Login() {
     setPassword(event.target.value);
   };
 
+  const handleLogIn = (res: any) => {
+    const user = res.user;
+    const loginData = {
+      displayName: user.displayName || "",
+      email: user.email || "",
+      photoURL: user.photoURL || "",
+      uid: user.uid,
+      loggedIn: true,
+    };
+
+    showNotificationPopup(`Logged in with ${user.email}`, "#15d146");
+    dispatch(loginUser(loginData));
+    if (recipe.title !== "") {
+      saveUserRecipe(user.uid, {
+        name: recipe.title,
+        recipe: recipe.recipe,
+        favorite: false,
+      }).then(() => {
+        navigate("/saved-recipes");
+      });
+    }
+  };
+
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((res) => {
-        const user = res.user;
-        const loginData = {
-          displayName: user.displayName || "",
-          email: user.email || "",
-          photoURL: user.photoURL || "",
-          uid: user.uid,
-          loggedIn: true,
-        };
-        showNotificationPopup(`Logged in as ${user.email}`, "#15d146");
-        dispatch(loginUser(loginData));
+        handleLogIn(res);
       })
       .catch((err) => {
         if (err.code === "auth/user-not-found") {
           // If user doesn't exist, create a new account with the same email and password
           createUserWithEmailAndPassword(auth, email, password)
             .then((res) => {
-              const user = res.user;
-              const loginData = {
-                displayName: user.displayName || "",
-                email: user.email || "",
-                photoURL: user.photoURL || "",
-                uid: user.uid,
-                loggedIn: true,
-              };
-              showNotificationPopup(`Logged in as ${user.email}`, "#15d146");
-              dispatch(loginUser(loginData));
+              handleLogIn(res);
             })
             .catch((err) => {
               alert(`${err.name}: ${err.message}`);
@@ -74,17 +94,7 @@ export default function Login() {
   const googleSignUp = () => {
     signInWithPopup(auth, googleProvider)
       .then((res) => {
-        const user = res.user;
-        // console.log(res);
-        const loginData = {
-          displayName: user.displayName || "",
-          email: user.email || "",
-          photoURL: user.photoURL || "",
-          uid: user.uid,
-          loggedIn: true,
-        };
-        showNotificationPopup(`Logged in as ${user.displayName}`, "#15d146");
-        dispatch(loginUser(loginData));
+        handleLogIn(res);
       })
       .catch((err) => {
         alert(
@@ -96,17 +106,7 @@ export default function Login() {
   const gitSignUp = () => {
     signInWithPopup(auth, gitProvider)
       .then((res) => {
-        const user = res.user;
-        // console.log(res);
-        const loginData = {
-          displayName: user.displayName || "",
-          email: user.email || "",
-          photoURL: user.photoURL || "",
-          uid: user.uid,
-          loggedIn: true,
-        };
-        showNotificationPopup(`Logged in as ${user.displayName}`, "#15d146");
-        dispatch(loginUser(loginData));
+        handleLogIn(res);
       })
       .catch((err, ...rest) => {
         alert(
@@ -118,7 +118,10 @@ export default function Login() {
   const handleForgotPassword = () => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        showNotificationPopup(`Password reset email sent to ${email}`, "#15d146");
+        showNotificationPopup(
+          `Password reset email sent to ${email}`,
+          "#15d146"
+        );
       })
       .catch((err) => {
         alert(`${err.name}: ${err.message}`);
@@ -127,6 +130,12 @@ export default function Login() {
 
   const logOut = () => {
     showNotificationPopup(`Logged out`, "#de395f");
+    dispatch(
+      setCurrent({
+        title: '',
+        recipe: '',
+      })
+    );
     dispatch(logoutUser());
   };
 
@@ -142,7 +151,7 @@ export default function Login() {
               className="signUp mb-2"
               onClick={gitSignUp}
             >
-              Sign up with GitHub
+              Sign in with GitHub
               <span className="ml-2 fa-brands fa-github" />
             </button>
             <button
@@ -151,7 +160,7 @@ export default function Login() {
               className="signUp mb-4"
               onClick={googleSignUp}
             >
-              Sign up with Google
+              Sign in with Google
               <span className="ml-2 fa-brands fa-google" />
             </button>
           </div>
@@ -195,7 +204,7 @@ export default function Login() {
 
       {loggedIn !== undefined && loggedIn && (
         <div id="logIn">
-          <button type="button" id="logOut" className="signUp" onClick={logOut}>
+          <button type="button" id="logOut" className="signUp hyper" onClick={logOut}>
             Log Out
           </button>
         </div>

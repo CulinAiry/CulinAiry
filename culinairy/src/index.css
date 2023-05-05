@@ -79,7 +79,7 @@ html {
 
 #markdown {
   font-family: "Montserrat";
-  font-size: 26px;
+  font-size: 0.8em;
   line-height: 1.6;
   color: #f2f2f2;
   padding: 20px;
@@ -92,13 +92,13 @@ html {
 
 @media screen and (max-width: 1025px) {
   #markdown {
-    font-size: 20px;
+    font-size: 0.75em;
     margin-inline: 10%;
   }
 }
 @media screen and (max-width: 641px) {
   #markdown {
-    font-size: 14px;
+    font-size: 0.77em;
     margin-inline: 4%;
   }
 }
@@ -236,50 +236,64 @@ html {
   color: #fff;
 }
 
-/* .hyper {
-  border: solid;
-  border-color: #2e3687;
-  border-width: thin;
-  background: linear-gradient(
-    to bottom right,
-    #186479,
-    #565eb0,
-    #2d5e8d,
-    #565eb0,
-    #186479
-  );
-  background-size: 1000% 5000%;
-  animation: gradient 12s cubic-bezier(0.31, 0.19, 0.73, 0.83) infinite;
-} */
 .hyper {
   border: solid;
-  border-width: 0.05em;
-  border-radius: 0.7em;
-  /* background-size: 1000% 5000%; */
-  animation: gradientBorder 12s cubic-bezier(1, 2.69, 0.43, 1.43) infinite;
+  border-width: 0.09em;
+  border-radius: 0.8em;
+  color: #fff5e0;
+  -webkit-text-stroke: 0.025em #143687;
+  background-color: #2e3687;
+  animation: gradientBorder 12s cubic-bezier(0.98, 2.13, 0,-0.02) infinite;
+}
+
+.hyper:hover {
+  background-color: #353e9c;
 }
 
 @keyframes gradientBorder {
   0% {
-    border-color: #00b5b6;
+    border-color: #143687;
+    -webkit-text-stroke: 0.025em #143687;
+  }
+  15% {
+    border-color: #2a9d8f;
+    -webkit-text-stroke: 0.025em #2a9d8f;
   }
   20% {
-    border-color: #009ac6;
+    border-color: #143687;
+    -webkit-text-stroke: 0.025em #143687;
+  }
+  30% {
+    border-color: #00b5b6;
+    -webkit-text-stroke: 0.025em #00b5b6;
+  }
+  35% {
+    border-color: #2a9d8f;
+    -webkit-text-stroke: 0.025em #2a9d8f;
   }
   40% {
-    border-color: #3a439c;
+    border-color: #143687;
+    -webkit-text-stroke: 0.025em #143687;
   }
-  60% {
-    border-color: #005fb8;
+  75% {
+    border-color: #2a9d8f;
+    -webkit-text-stroke: 0.025em #2a9d8f;
   }
   80% {
-    border-color: #3a439c;
+    border-color: #143687;
+    -webkit-text-stroke: 0.025em #143687;
   }
-  90% {
-    border-color: #009ac6;
+  85% {
+    border-color: #00b5b6;
+    -webkit-text-stroke: 0.025em #00b5b6;
+  }
+  95% {
+    border-color: #2a9d8f;
+    -webkit-text-stroke: 0.025em #2a9d8f;
   }
   100% {
-    border-color: #00b5b6;
+    border-color: #143687;
+    -webkit-text-stroke: 0.025em #143687;
   }
 }
 
@@ -337,7 +351,7 @@ html {
 
 #label {
   font-size: x-large;
-  color: #ffe4e1;
+  color: #fff5e0;
   font-family: Roboto Flex;
 }
 
@@ -532,7 +546,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 ::-webkit-scrollbar {
-  width: 2vw;
+  width: 0.8em;
   scroll-behavior: smooth;
 }
 ::-webkit-scrollbar-thumb {

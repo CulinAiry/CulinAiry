@@ -1,26 +1,28 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export interface User {
+  displayName: string;
+  email: string;
+  photoURL: string;
+  uid: string;
+}
 
 export interface UserState {
   loggedIn: boolean;
-  user: {
-    displayName: string;
-    email: string;
-    photoURL: string;
-    uid: string;
-  };
+  user: User;
 }
 
 const initialState: UserState = {
   loggedIn: false,
   user: {
-    displayName: '',
-    email: '',
-    photoURL: '',
-    uid: '',
+    displayName: "",
+    email: "",
+    photoURL: "",
+    uid: "",
   },
 };
 
-const savedUser = localStorage.getItem('currentUser');
+const savedUser = localStorage.getItem("currentUser");
 let user: UserState;
 if (savedUser) {
   user = JSON.parse(savedUser);
@@ -29,24 +31,24 @@ if (savedUser) {
 }
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState: user,
   reducers: {
-    loginUser: (state, action: PayloadAction<UserState['user']>) => {
+    loginUser: (state, action: PayloadAction<UserState["user"]>) => {
       // console.log('loginUser', action.payload)
       state.user = action.payload;
       state.loggedIn = true;
-      localStorage.setItem('currentUser', JSON.stringify(state));
+      localStorage.setItem("currentUser", JSON.stringify(state));
     },
     logoutUser: (state) => {
       state.loggedIn = false;
       state.user = {
-        displayName: '',
-        email: '',
-        photoURL: '',
-        uid: '',
+        displayName: "",
+        email: "",
+        photoURL: "",
+        uid: "",
       };
-      localStorage.removeItem('currentUser');
+      localStorage.removeItem("currentUser");
     },
   },
 });

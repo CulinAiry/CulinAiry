@@ -1,14 +1,16 @@
-import { doc, getDocs, setDoc, collection, deleteDoc, getDoc } from 'firebase/firestore';
+import { doc, getDocs, setDoc, collection, query, orderBy, deleteDoc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export type Recipe = {
   name: string;
   favorite: boolean;
   recipe: string;
+  timestamp?: number;
 };
 
 export const saveUserRecipe = async (userId: string, recipe: Recipe) => {
   try {
+    recipe.timestamp = (new Date()).getTime();
     const userRef = doc(db, 'userRecipes', userId);
     const userSnapshot = await getDoc(userRef);
     if (!userSnapshot.exists()) {
@@ -28,9 +30,14 @@ export const getUserRecipes = async (userId: string) => {
     const recipesRef = collection(db, `userRecipes/${userId}/recipes`);
     const snapshot = await getDocs(recipesRef);
     snapshot.forEach((doc) => {
-      recipes.push(doc.data() as Recipe);
+      const recipe = doc.data() as Recipe;
+      if (recipe.timestamp) {
+        recipes.push(recipe);
+      } else {
+        recipes.push({...recipe, timestamp: 0});
+      }
     });
-    return recipes;
+    return recipes.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
   } catch (error) {
     console.error('Error getting user recipes:', error);
     return [];
