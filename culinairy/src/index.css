@@ -98,7 +98,7 @@ html {
 }
 @media screen and (max-width: 641px) {
   #markdown {
-    font-size: 0.7em;
+    font-size: 0.77em;
     margin-inline: 4%;
   }
 }
