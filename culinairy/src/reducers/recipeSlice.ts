@@ -1,12 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+interface Recipe {
+  title: string;
+  recipe: string;
+}
 interface RecipeState {
-  currentRecipe: string;
-  savedRecipes: string[];
+  currentRecipe: Recipe;
 }
 const initialState: RecipeState = {
-  currentRecipe: '',
-  savedRecipes: [],
+  currentRecipe: {
+    title: '',
+    recipe: '',
+  },
 };
 
 export const recipeSlice = createSlice({
@@ -16,12 +21,9 @@ export const recipeSlice = createSlice({
     setCurrent: (state, action) => {
       state.currentRecipe = action.payload;
     },
-    addCurrent: (state, action) => {
-      state.savedRecipes.push(action.payload);
-    },
   },
 });
 
-export const { setCurrent, addCurrent } = recipeSlice.actions;
+export const { setCurrent } = recipeSlice.actions;
 
 export default recipeSlice.reducer;
